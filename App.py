@@ -19,6 +19,12 @@ import pydotplus
 
 # Password check
 
+st.set_page_config(
+     page_title="Log Analysis and Process Discovery",
+     page_icon=":clipboard:",
+     layout="wide")
+
+
 def check_password():
     """Returns `True` if the user had the correct password."""
 

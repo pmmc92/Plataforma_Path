@@ -7,6 +7,11 @@ import seaborn as sns
 import pm4py as pm
 import os
 
+st.set_page_config(
+     page_title="Conformance Analysis",
+     page_icon=":heavy_check_mark:",
+     layout="wide")
+
 # Password check
 
 def check_password():
