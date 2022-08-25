@@ -80,5 +80,15 @@ if check_password() == True:
             pm.save_vis_heuristics_net(heu_net, "net.png")
             st.image("net.png")
     
+    bpmn_graph = pm.read_bpmn("Diagram 1.bpmn")
+    net, im, fm = pm.convert_to_petri_net(bpmn_graph)
+    replayed_traces = pm.conformance_diagnostics_token_based_replay(elog, net, im, fm)
+    list_tf = []
+    for i in range(len(replayed_traces)):
+        trace_sel = replayed_traces[i]
+        tf_t = trace_sel.get("trace_fitness")
+        list_tf.append(tf_t)
+
+    st.success("The Trace Fitness of this analysis is {:.2f}".format(np.mean(list_tf)))
 
     
