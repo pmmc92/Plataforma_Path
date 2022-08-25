@@ -87,6 +87,6 @@ if check_password() == True:
             tf_t = trace_sel.get("trace_fitness")
             list_tf.append(tf_t)
 
-        st.success("The Trace Fitness of this analysis is {:.2f}".format(np.mean(list_tf)))
+        st.write(np.mean(list_tf))
 
     
