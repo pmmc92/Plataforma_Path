@@ -139,8 +139,8 @@ if st.button("Analisar"):
     with tab4:
         filtered_log = pm.filter_case_size(elog, 3, 30)
         heu_net = pm.discover_heuristics_net(filtered_log, dependency_threshold=0.99, loop_two_threshold=0.99)
-        path = os.getcwd()
-        st.graphviz_chart(pm.view_heuristics_net(heu_net, format = "png"))
+        pm.save_vis_heuristics_net(heu_net, "heu_net.png")
+        st.image("heu_net.png")
     #Tab 5 - Social Network
     with tab5:
         st.subheader(":male-doctor:""Social Network")
