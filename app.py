@@ -15,6 +15,7 @@ from pyvis.network import Network
 from pm4py.visualization.sna import visualizer as sna_visualizer
 import streamlit.components.v1 as components
 import graphviz
+import pydotplus
 
 # Layout
 
