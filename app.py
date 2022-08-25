@@ -79,7 +79,6 @@ if st.button("Analisar"):
         st.image(image)
         # Gráficos 3 - Days of the week
         st.subheader("Distribution of log by day of the week")
-        st.write(pm.view_events_distribution_graph(elog, distr_type="days_week"))
     # Tab 3 - Activities Report
     with tab3:
         st.header(":bar_chart:" "Activities Report")
