@@ -17,7 +17,7 @@ import streamlit.components.v1 as components
 import graphviz
 import pydotplus
 
-# Pssword check
+# Password check
 
 def check_password():
     """Returns `True` if the user had the correct password."""
