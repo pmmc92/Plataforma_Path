@@ -139,8 +139,8 @@ if st.button("Analisar"):
         log = pm.convert_to_event_log(log)
         filtered_log = pm.filter_case_size(log, 3, 30)
         heu_net = pm.discover_heuristics_net(filtered_log, dependency_threshold=0.99, loop_two_threshold=0.99)
-        pm.save_vis_heuristics_net(heu_net, "net.png")
-        st.image("net.png")
+        image = Image.open(pm.view_heuristics_net(heu_net))
+        st.image(image)
     #Tab 5 - Social Network
     with tab5:
         st.subheader(":male-doctor:""Social Network")
