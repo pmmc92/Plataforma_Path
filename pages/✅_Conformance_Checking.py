@@ -101,7 +101,7 @@ if check_password() == True:
             color_discrete_sequence=["teal"],
             marginal="box").update_xaxes(visible=False)
             tf_g1.update_layout(showlegend=False)
-            st.plotly_chart(tf_g2)
+            st.plotly_chart(tf_g1)
         #Alignment Method
         with tab2:
             aligned_traces = pm.conformance_diagnostics_alignments(elog,net,im,fm)
