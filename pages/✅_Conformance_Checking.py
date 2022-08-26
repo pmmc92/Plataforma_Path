@@ -6,6 +6,7 @@ import numpy as np
 import seaborn as sns
 import pm4py as pm
 import os
+import plotly.express as pe
 
 st.set_page_config(
      page_title="Conformance Analysis",
