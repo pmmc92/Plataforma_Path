@@ -81,7 +81,7 @@ if check_password() == True:
         # Read BPMN and transform to petrinet
         bpmn_graph = pm.read_bpmn(bpmn_file_input)
         net, im, fm = pm.convert_to_petri_net(bpmn_graph)
-        tab1,tab2 = st.tabs(["Token Replay Method","Alignements Method"])
+        tab1,tab2 = st.tabs(["Token Replay Method","Alignments Method"])
         # Token Replay Method
         with tab1:
             replayed_traces = pm.conformance_diagnostics_token_based_replay(elog, net, im, fm)
