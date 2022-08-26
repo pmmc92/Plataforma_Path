@@ -64,8 +64,6 @@ if check_password() == True:
             log = log[['org:resource', 'case:concept:name', 'concept:name', 'time:timestamp']]
             log["org:resource"] = log["org:resource"].astype(str)
             elog = pm.convert_to_event_log(log)
-            bpmn_graph = pm.read_bpmn(bpmn_file_input)
-            net, im, fm = pm.convert_to_petri_net(bpmn_graph)
         elif (os.path.splitext(log_file_input.name)[1]) == ".xlsx":
             log = pd.read_excel(log_file_input)
             log = log.rename(columns={log.columns[3]:"org:resource"})
@@ -79,6 +77,16 @@ if check_password() == True:
             heu_net = pm.discover_heuristics_net(filtered_log, dependency_threshold=0.99, loop_two_threshold=0.99)
             pm.save_vis_heuristics_net(heu_net, "net.png")
             st.image("net.png")
-    
+
+        bpmn_graph = pm.read_bpmn(bpmn_file_input)
+        net, im, fm = pm.convert_to_petri_net(bpmn_graph)
+        replayed_traces = pm.conformance_diagnostics_token_based_replay(elog, net, im, fm)
+        list_tf = []
+        for i in range(len(replayed_traces)):
+            trace_sel = replayed_traces[i]
+            tf_t = trace_sel.get("trace_fitness")
+            list_tf.append(tf_t)
+
+        st.success("The trace fitness value is {:.2f}".format(np.mean(list_tf)))
 
     
