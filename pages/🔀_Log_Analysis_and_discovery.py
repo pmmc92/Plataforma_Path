@@ -16,6 +16,7 @@ from pm4py.visualization.sna import visualizer as sna_visualizer
 import streamlit.components.v1 as components
 import graphviz
 import pydotplus
+from pm4py.visualization.heuristics_net import visualizer as hn_visualizer
 
 #Page Layout and config
 
@@ -176,6 +177,9 @@ if check_password() == True:
         with tab4:
             filtered_log = pm.filter_case_size(elog, 3, 30)
             heu_net = pm.discover_heuristics_net(filtered_log, dependency_threshold=0.99, loop_two_threshold=0.99)
+            parameters=hn_visualizer.Variants.PYDOTPLUS.value.Parameters
+            gviz=hn_visualizer.apply(heu_net,parameters={parameters.FORMAT:"png","bgcolor":"white"})
+            gviz
         #Tab 5 - Social Network
         with tab5:
             st.subheader(":male-doctor:""Social Network")
