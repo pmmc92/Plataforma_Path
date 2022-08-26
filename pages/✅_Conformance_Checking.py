@@ -77,16 +77,49 @@ if check_password() == True:
             heu_net = pm.discover_heuristics_net(filtered_log, dependency_threshold=0.99, loop_two_threshold=0.99)
             pm.save_vis_heuristics_net(heu_net, "net.png")
             st.image("net.png")
-
+        # Read BPMN and transform to petrinet
         bpmn_graph = pm.read_bpmn(bpmn_file_input)
         net, im, fm = pm.convert_to_petri_net(bpmn_graph)
-        replayed_traces = pm.conformance_diagnostics_token_based_replay(elog, net, im, fm)
-        list_tf = []
-        for i in range(len(replayed_traces)):
-            trace_sel = replayed_traces[i]
-            tf_t = trace_sel.get("trace_fitness")
-            list_tf.append(tf_t)
-
-        st.success("The trace fitness value is {:.2f}".format(np.mean(list_tf)))
+        tab1,tab2 = st.tabs(["Token Replay Method","Alignements Method"])
+        # Token Replay Method
+        with tab1:
+            replayed_traces = pm.conformance_diagnostics_token_based_replay(elog, net, im, fm)
+            list_tf = []
+            for i in range(len(replayed_traces)):
+                trace_sel = replayed_traces[i]
+                tf_t = trace_sel.get("trace_fitness")
+                list_tf.append(tf_t)
+            st.header("Token Replay Method")
+            st.markdown("Token-based replay technique is a conformance checking algorithm that checks how well a process conforms with its model by replaying each trace on the model.Using the four counters produced tokens, consumed tokens, missing tokens, and remaining tokens, it records the situations where a transition is forced to fire and the remaining tokens after the replay ends. Based on the count at each counter, we can compute the fitness value between the trace and the model.")
+            st.subheader("The trace fitness value is **{:.2f}**".format(np.mean(list_tf)))
+            tf_g1=pe.histogram(list_tf,
+            template="simple_white",
+            width = 900,
+            height = 400,
+            labels={"variable":"Trace Fitness"},
+            color_discrete_sequence=["teal"],
+            marginal="box").update_xaxes(visible=False)
+            tf_g1.update_layout(showlegend=False)
+            st.plotly_chart(tf_g2)
+        #Alignment Method
+        with tab2:
+            aligned_traces = pm.conformance_diagnostics_alignments(elog,net,im,fm)
+            list_tf2 = []
+            for i in range(len(aligned_traces)):
+                trace_sel2 = aligned_traces[i]
+                tf_t2 = trace_sel2.get("fitness")
+                list_tf2.append(tf_t2)
+            st.header("Alignment method")
+            st.markdown("Alignments is a technique, which performs an exhaustive search to find out the optimal alignment between the observed trace and the process model. Hence, it is guaranteed to return the closest model run in comparison to the trace.")
+            st.subheader("The trace fitness value is **{:.2f}**".format(np.mean(list_tf2)))
+            tf_g2=pe.histogram(list_tf2,
+            template="simple_white",
+            width = 900,
+            height = 400,
+            labels={"variable":"Trace Fitness"},
+            color_discrete_sequence=["teal"],
+            marginal="box").update_xaxes(visible=False)
+            tf_g2.update_layout(showlegend=False)
+            st.plotly_chart(tf_g2)
 
     
