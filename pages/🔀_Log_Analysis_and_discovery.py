@@ -359,10 +359,10 @@ if check_password() == True:
                 shutil.copyfile(temp_file_name, dest_file)
 
             st.subheader(":male-doctor:""Social Network")
-            st.write(directed)
-            st.write(weights)
             hw_values = pm.discover_handover_of_work_network(elog)
             gviz2 = apply(hw_values)
+            st.write(directed)
+            st.write(weights)
             path = os.getcwd()
             save(gviz2,f"{path}/sna.html")
             HtmlFile = open(f"{path}/sna.html")
