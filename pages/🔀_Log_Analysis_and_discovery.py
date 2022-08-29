@@ -387,7 +387,7 @@ if check_password() == True:
             st.write(gviz2)
             path = os.getcwd()
             save(gviz2,f"{path}/html_files/pyvis_graph.html")
-            HtmlFile = open(f"{path}/html_files/pyvis_graph.html")
+            HtmlFile = open(f"{path}/tmp/tmpq7w4gg90.html")
             components.html(HtmlFile.read(), width = 800, height = 800)
             st.write(hw_values)
     
