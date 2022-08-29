@@ -348,10 +348,8 @@ if check_password() == True:
                 
 
                 got_net.write_html(temp_file_name)
-                st.write(directed)
-                st.write(weights)
-                st.write(src)
-                st.write(dst)
+                st.write(edge_data)
+
 
                 return temp_file_name
             
