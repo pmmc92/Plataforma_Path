@@ -348,7 +348,7 @@ if check_password() == True:
                 
 
                 got_net.write_html(temp_file_name)
-                st.write(edge_data)
+                st.write([i for i in edge_data])
 
 
                 return temp_file_name
