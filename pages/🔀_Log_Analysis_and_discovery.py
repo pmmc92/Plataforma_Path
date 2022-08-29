@@ -365,6 +365,7 @@ if check_password() == True:
             save(gviz2,f"{path}/sna.html")
             HtmlFile = open(f"{path}/sna.html")
             components.html(HtmlFile.read(), width = 800, height = 800)
+            from pm4py.visualization.sna import visualizer as sna_visualizer
             gviz3 = sna_visualizer(hw_values, variant = sna_visualizer.Variants.PYVIS)
             sna_visualizer.save(gviz3,f"{path}/sna2.html")
             HtmlFile2 = open(f"{path}/sna2.html")
