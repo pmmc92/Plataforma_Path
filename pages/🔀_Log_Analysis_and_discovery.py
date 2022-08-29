@@ -384,6 +384,7 @@ if check_password() == True:
             st.subheader(":male-doctor:""Social Network")
             hw_values = pm.discover_handover_of_work_network(elog)
             gviz2 = apply(hw_values)
+            st.write(gviz2)
             path = os.getcwd()
             save(gviz2,f"{path}/html_files/pyvis_graph.html")
             HtmlFile = open(f"{path}/html_files/pyvis_graph.html")
