@@ -17,6 +17,10 @@ import streamlit.components.v1 as components
 import graphviz
 import pydotplus
 from pm4py.visualization.heuristics_net import visualizer as hn_visualizer
+import shutil
+import tempfile
+from enum import Enum
+from pm4py.util import exec_utils, vis_utils
 
 #Page Layout and config
 
@@ -395,6 +399,7 @@ if check_password() == True:
 
                 shutil.copyfile(temp_file_name, dest_file)
 
+            ## END
 
             st.subheader(":male-doctor:""Social Network")
             hw_values = pm.discover_handover_of_work_network(elog)
