@@ -179,7 +179,7 @@ if check_password() == True:
             heu_net = pm.discover_heuristics_net(filtered_log, dependency_threshold=0.99, loop_two_threshold=0.99)
             parameters=hn_visualizer.Variants.PYDOTPLUS.value.Parameters
             gviz=hn_visualizer.apply(heu_net,parameters={parameters.FORMAT:"png","bgcolor":"white"})
-            image = Image.open(gviz)
+            image = Image.open(hn_visualizer.view(gviz))
             st.image(image)
         #Tab 5 - Social Network
         with tab5:
