@@ -350,6 +350,14 @@ if check_password() == True:
                 got_net.write_html(temp_file_name)
 
                 return temp_file_name
+            
+            def save(temp_file_name, dest_file, parameters=None):
+
+                if parameters is None:
+                    parameters = {}
+
+                shutil.copyfile(temp_file_name, dest_file)
+
             st.subheader(":male-doctor:""Social Network")
             hw_values = pm.discover_handover_of_work_network(elog)
             gviz2 = apply(hw_values)
