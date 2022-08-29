@@ -384,10 +384,9 @@ if check_password() == True:
             st.subheader(":male-doctor:""Social Network")
             hw_values = pm.discover_handover_of_work_network(elog)
             gviz2 = apply(hw_values)
-            st.write(gviz2)
             path = os.getcwd()
-            HtmlFile = open(f"{path}{gviz2}")
+            save(gviz2,f"{path}/sna.html")
+            HtmlFile = open(f"{path}/sna.html")
             components.html(HtmlFile.read(), width = 800, height = 800)
-            st.write(hw_values)
     
 
