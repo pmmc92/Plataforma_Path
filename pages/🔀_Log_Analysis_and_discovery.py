@@ -361,26 +361,6 @@ if check_password() == True:
                 return temp_file_name
 
 
-            def view(temp_file_name, parameters=None):
-                """
-                View the SNA visualization on the screen
-
-                Parameters
-                -------------
-                temp_file_name
-                    Temporary file name
-                parameters
-                    Possible parameters of the algorithm
-                """
-                if parameters is None:
-                    parameters = {}
-
-                if vis_utils.check_visualization_inside_jupyter():
-                    raise Exception("pyvis visualization not working inside Jupyter notebooks")
-                else:
-                    vis_utils.open_opsystem_image_viewer(temp_file_name)
-
-
             def save(temp_file_name, dest_file, parameters=None):
                 """
                 Save the SNA visualization from a temporary file to a well-defined destination file
@@ -408,5 +388,6 @@ if check_password() == True:
             save(gviz2,f"{path}/html_files/pyvis_graph.html")
             HtmlFile = open(f"{path}/html_files/pyvis_graph.html")
             components.html(HtmlFile.read(), width = 800, height = 800)
+            st.write(hw_values)
     
 
