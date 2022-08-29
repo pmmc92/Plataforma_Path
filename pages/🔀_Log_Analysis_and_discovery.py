@@ -182,11 +182,224 @@ if check_password() == True:
             gviz
         #Tab 5 - Social Network
         with tab5:
+            ### THIS SECTION USES ORIGINAL PM4PY VIS SCRIPT TO ALLOW CUSTOMIZING PYVIS NETWORK
+            ## START
+
+            import shutil
+            import tempfile
+            from enum import Enum
+
+            import numpy as np
+
+            from pm4py.util import exec_utils, vis_utils
+
+
+            class Parameters(Enum):
+                WEIGHT_THRESHOLD = "weight_threshold"
+
+
+            def get_temp_file_name(format):
+                """
+                Gets a temporary file name for the image
+
+                Parameters
+                ------------
+                format
+                    Format of the target image
+                """
+                filename = tempfile.NamedTemporaryFile(suffix='.' + format)
+
+                return filename.name
+
+
+            def apply(metric_values, parameters=None):
+                """
+                Perform SNA visualization starting from the Matrix Container object
+                and the Resource-Resource matrix
+
+                Parameters
+                -------------
+                metric_values
+                    Value of the metrics
+                parameters
+                    Possible parameters of the algorithm, including:
+                        - Parameters.WEIGHT_THRESHOLD -> the weight threshold to use in displaying the graph
+
+                Returns
+                -------------
+                temp_file_name
+                    Name of a temporary file where the visualization is placed
+                """
+                from pyvis.network import Network
+
+                if parameters is None:
+                    parameters = {}
+
+                weight_threshold = exec_utils.get_param_value(Parameters.WEIGHT_THRESHOLD, parameters, 0)
+                directed = metric_values[2]
+
+                temp_file_name = get_temp_file_name("html")
+
+                rows, cols = np.where(metric_values[0] > weight_threshold)
+                weights = list()
+
+                for x in range(len(rows)):
+                    weights.append(metric_values[0][rows[x]][cols[x]])
+
+                got_net = Network(height="750px", width="100%", bgcolor="white", font_color="#f5b642", directed=directed)
+                # set the physics layout of the network
+                got_net.barnes_hut()
+
+                edge_data = zip(rows, cols, weights)
+
+                for e in edge_data:
+                    src = metric_values[1][e[0]]  # convert ids to labels
+                    dst = metric_values[1][e[1]]
+                    w = e[2]
+
+                # I have to add some options here, there is no parameter
+                highlight = {'border': "#164bdb", 'background': "#16b7db"}
+                # color = {'border': "#000000", 'background': "#123456"}
+                got_net.add_node(src, src, title=src, labelHighlightBold=True, color={'highlight': highlight})
+                got_net.add_node(dst, dst, title=dst, labelHighlightBold=True, color={'highlight': highlight})
+                got_net.add_edge(src, dst, value=w, title=w)
+
+                neighbor_map = got_net.get_adj_list()
+
+                dict = got_net.get_edges()
+
+                # add neighbor data to node hover data
+                for node in got_net.nodes:
+                    counter = 0
+                    if directed:
+                        node["title"] = "<h3>" + node["title"] + " Output Links: </h3>"
+                    else:
+                        node["title"] = "<h3>" + node["title"] + " Links: </h3>"
+                    for neighbor in neighbor_map[node["id"]]:
+                        if (counter % 10 == 0):
+                            node["title"] += "<br>::: " + neighbor
+                        else:
+                            node["title"] += " ::: " + neighbor
+                        node["value"] = len(neighbor_map[node["id"]])
+                        counter += 1
+
+                got_net.set_options("""
+                var options = {
+                    "nodes": {
+                        "borderwidth" : 1,
+                        "borderwidthselected" : 2,
+                        "color": {
+                            "background" : "rgba(114,191,197,1)",
+                            "border" : "rgba(0,100,121,1)",
+                            "highlight" : {
+                                "color" : "rgba(22,78,219,1)"
+                            }
+                        },
+                        "font": {
+                            "size": 70,
+                            "color" : "rgba(219,111,22,1)",
+                            "face" : "verdana"
+                        },
+                        "labelHighlightBold": true,
+                        "physics": true,
+                        "scaling": {
+                            "min": 10,
+                            "max": 30
+                        },
+                        "shape" : "ellipse",
+                        "shapeProperties": {
+                            "borderRadius": 6,
+                            "interpolation": true
+                        }
+                    },
+                    "edges": {
+                        "arrowStrikethrough": true,
+                        "color": {
+                            "color" : "rgba(114,191,197,1)",
+                            "inherit": true
+                        },
+                        "hoverWidth" : 1.5,
+                        "labelHighlightBold" : true,
+                        "physics" : true,
+                        "scaling": {
+                            "min": 1,
+                            "max": 15
+                        },
+                        "selectionWidth" : 1.5,
+                        "selfReferenceSize" : 20,
+                        "selfReference": {
+                            "size" : 20,
+                            "angle": 0.7853981633974483,
+                            "renderBehindTheNode" : true
+                        },
+                        "smooth": {
+                            "type" : "dynamic",
+                            "forceDirection": "none",
+                            "roundness" : 0.5
+                        },
+                        "width" : 1
+                    },
+                    "physics": {
+                        "barnesHut": {
+                            "gravitationalConstant": -80000,
+                            "springLenght" : 250,
+                            "springConstant" : 0.001
+                        },
+                    "minVelocity": 0.75
+                    }
+                }
+                """)
+                
+
+                got_net.write_html(temp_file_name)
+
+                return temp_file_name
+
+
+            def view(temp_file_name, parameters=None):
+                """
+                View the SNA visualization on the screen
+
+                Parameters
+                -------------
+                temp_file_name
+                    Temporary file name
+                parameters
+                    Possible parameters of the algorithm
+                """
+                if parameters is None:
+                    parameters = {}
+
+                if vis_utils.check_visualization_inside_jupyter():
+                    raise Exception("pyvis visualization not working inside Jupyter notebooks")
+                else:
+                    vis_utils.open_opsystem_image_viewer(temp_file_name)
+
+
+            def save(temp_file_name, dest_file, parameters=None):
+                """
+                Save the SNA visualization from a temporary file to a well-defined destination file
+
+                Parameters
+                -------------
+                temp_file_name
+                    Temporary file name
+                dest_file
+                    Destination file
+                parameters
+                    Possible parameters of the algorithm
+                """
+                if parameters is None:
+                    parameters = {}
+
+                shutil.copyfile(temp_file_name, dest_file)
+
+
             st.subheader(":male-doctor:""Social Network")
             hw_values = pm.discover_handover_of_work_network(elog)
-            gviz2 = sna_visualizer.apply(hw_values, variant=sna_visualizer.Variants.PYVIS)
+            gviz2 = apply(hw_values)
             path = os.getcwd()
-            sna_visualizer.save(gviz2,f"{path}/html_files/pyvis_graph.html")
+            save(gviz2,f"{path}/html_files/pyvis_graph.html")
             HtmlFile = open(f"{path}/html_files/pyvis_graph.html")
             components.html(HtmlFile.read(), width = 800, height = 800)
     
