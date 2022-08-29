@@ -177,7 +177,9 @@ if check_password() == True:
         with tab4:
             filtered_log = pm.filter_case_size(elog, 3, 30)
             heu_net = pm.discover_heuristics_net(filtered_log, dependency_threshold=0.99, loop_two_threshold=0.99)
-            image = Image.open(pm.view_heuristics_net(heu_net))
+            path = os.getcwd()
+            graph = pm.save_vis_heuristics_net(file_path = f"{path}/heunet.png")
+            image = Image.open(graph)
             st.image(image)
         #Tab 5 - Social Network
         with tab5:
