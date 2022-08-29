@@ -187,7 +187,7 @@ if check_password() == True:
             st.image(image)
         #Tab 5 - Social Network
         with tab5:
-                                    ### THIS SECTION USES ORIGINAL PM4PY VIS SCRIPT TO ALLOW CUSTOMIZING PYVIS NETWORK
+            ### THIS SECTION USES ORIGINAL PM4PY VIS SCRIPT TO ALLOW CUSTOMIZING PYVIS NETWORK
             ## START
 
             class Parameters(Enum):
@@ -359,16 +359,13 @@ if check_password() == True:
                 shutil.copyfile(temp_file_name, dest_file)
 
             st.subheader(":male-doctor:""Social Network")
+            st.write(directed)
+            st.write(weights)
             hw_values = pm.discover_handover_of_work_network(elog)
             gviz2 = apply(hw_values)
             path = os.getcwd()
             save(gviz2,f"{path}/sna.html")
             HtmlFile = open(f"{path}/sna.html")
             components.html(HtmlFile.read(), width = 800, height = 800)
-            from pm4py.visualization.sna import visualizer as sna_visualizer
-            gviz3 = sna_visualizer.apply(hw_values, variant = sna_visualizer.Variants.PYVIS)
-            sna_visualizer.save(gviz3,f"{path}/sna2.html")
-            HtmlFile2 = open(f"{path}/sna2.html")
-            components.html(HtmlFile2.read(), width = 800, height = 800)
     
 
