@@ -349,6 +349,7 @@ if check_password() == True:
 
                 got_net.write_html(temp_file_name)
                 st.write(neighbor_map)
+                st.write(dict)
 
 
                 return temp_file_name
