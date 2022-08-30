@@ -81,7 +81,7 @@ if check_password() == True:
             log["org:resource"] = log["org:resource"].astype(str)
             elog = pm.convert_to_event_log(log)
         else:
-            elog = pm.read_xes(log_file_input)
+            st.write(log_file_input)
            
         # Read BPMN and transform to petrinet
 
