@@ -87,7 +87,7 @@ if check_password() == True:
                 f.write(bytes_data)
             path = os.getcwd()
             xes_file = f.name
-            st.write(xes_file)
+            elog = pm.read_xes(xes_file)
            
         # Read BPMN and transform to petrinet
 
