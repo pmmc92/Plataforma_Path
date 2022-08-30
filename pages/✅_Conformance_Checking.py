@@ -85,7 +85,9 @@ if check_password() == True:
     
             with open(os.path.join("/tmp", log_file_input.name), "wb") as f:
                 f.write(bytes_data)
-            st.write(f)
+            path = os.getcwd()
+            xes_file = f.name
+            st.write(xes_file)
            
         # Read BPMN and transform to petrinet
 
