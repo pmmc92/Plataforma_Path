@@ -104,7 +104,7 @@ if check_password() == True:
             st.write("There are **{} patients** in this event log".format(log["case:concept:name"].nunique()))
             st.dataframe(log)
             st.subheader("Missing Data")
-            md = msn.matrix(log, figsize = (5,3))
+            md = msn.matrix(log)
             st.pyplot(md.figure)
         # Tab 2 - Time and Performance Analysis
         with tab2:
@@ -131,7 +131,7 @@ if check_password() == True:
             # Gráficos 3 - Days of the week
             st.subheader("Distribution of activities by resource trough time")
             path = os.getcwd()
-            time_resource = pm.save_vis_dotted_chart(elog, format="png", attributes=["time:timestamp","org:resource"],file_path = f"{path}/time_resource.png")
+            time_resource = pm.save_vis_dotted_chart(elog, attributes=["time:timestamp","org:resource"],file_path = f"{path}/time_resource.png")
             image2 = Image.open("time_resource.png")
             st.image(image2, width = 900)
         # Tab 3 - Activities Report
