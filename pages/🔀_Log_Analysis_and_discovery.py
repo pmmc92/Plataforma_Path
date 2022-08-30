@@ -1,4 +1,6 @@
 
+# Import necessary packages
+
 import streamlit as st
 import pandas as pd
 import matplotlib.pyplot as plt
@@ -26,7 +28,7 @@ from pm4py.util import exec_utils, vis_utils
 
 st.set_page_config(
      page_title="Log Analysis and Process Discovery",
-     page_icon=":clipboard:",
+     page_icon=":twisted_rightwards_arrows:",
      layout="wide")
 
 # Password check
@@ -63,9 +65,14 @@ if check_password() == True:
 
     # App structure
 
-    st.title("Show me a Path")
+    st.title("🔀Log Analysis and Discovery")
+    st.markdown("Process discovery describes the data-based visualization of a process and is a part of process mining. A process model is usually generated automatically from the data found in process discovery (via event logs). This model is often displayed as a direct follower graph. The primary goals of process discovery are increased transparency and process knowledge.")
+
+    # Log Import
 
     log_file_input = st.file_uploader("Upload the event log file", accept_multiple_files=False, type = [".xlsx",".csv",".xes"], help = "The event log should have the following structure: ID, Timestamp, Activity, Resource")
+
+    # File type driven operations
 
     if st.button("Analisar"): 
         if (os.path.splitext(log_file_input.name)[1]) == ".csv":
@@ -83,11 +90,11 @@ if check_password() == True:
             log["org:resource"] = log["org:resource"].astype(str)
             elog = pm.convert_to_event_log(log)
         else:
-            log = pm.read_xes(log_file_input)
-            filtered_log = pm.filter_case_size(log, 3, 30)
-            heu_net = pm.discover_heuristics_net(filtered_log, dependency_threshold=0.99, loop_two_threshold=0.99)
-            pm.save_vis_heuristics_net(heu_net, "net.png")
-            st.image("net.png")
+            bytes_data = log_file_input.read()
+            with open(os.path.join("/tmp", log_file_input.name), "wb") as f:
+                f.write(bytes_data)
+            xes_file = f.name
+            elog = pm.read_xes(xes_file)
         
         tab1,tab2,tab3,tab4,tab5 = st.tabs([" Event log information","Time and Performance Analysis","Activities Report","Process Discovery","Social Network"])
         # Tab 1 - Log File Info
@@ -97,6 +104,7 @@ if check_password() == True:
             st.write("There are **{} patients** in this event log".format(log["case:concept:name"].nunique()))
             st.dataframe(log)
             st.subheader("Missing Data")
+            plt.figure(figsize=(20,10))
             md = msn.matrix(log)
             st.pyplot(md.figure)
         # Tab 2 - Time and Performance Analysis
