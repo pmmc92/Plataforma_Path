@@ -253,12 +253,12 @@ if check_password() == True:
                     dst = metric_values[1][e[1]]
                     w = e[2]
 
-                # I have to add some options here, there is no parameter
-                highlight = {'border': "#164bdb", 'background': "#16b7db"}
-                # color = {'border': "#000000", 'background': "#123456"}
-                got_net.add_node(src, src, title=src, labelHighlightBold=True, color={'highlight': highlight})
-                got_net.add_node(dst, dst, title=dst, labelHighlightBold=True, color={'highlight': highlight})
-                got_net.add_edge(src, dst, value=w, title=w)
+                    # I have to add some options here, there is no parameter
+                    highlight = {'border': "#164bdb", 'background': "#16b7db"}
+                    # color = {'border': "#000000", 'background': "#123456"}
+                    got_net.add_node(src, src, title=src, labelHighlightBold=True, color={'highlight': highlight})
+                    got_net.add_node(dst, dst, title=dst, labelHighlightBold=True, color={'highlight': highlight})
+                    got_net.add_edge(src, dst, value=w, title=w)
 
                 neighbor_map = got_net.get_adj_list()
 
