@@ -9,6 +9,7 @@ import seaborn as sns
 import pm4py as pm
 import os
 import plotly.express as pe
+import lxml
 
 # Page Config
 
