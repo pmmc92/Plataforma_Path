@@ -348,6 +348,9 @@ if check_password() == True:
                 
 
                 got_net.write_html(temp_file_name)
+                st.write(rows)
+                st.write(cols)
+                st.write(metric_values)
                 st.write([i for i in edge_data])
 
 
