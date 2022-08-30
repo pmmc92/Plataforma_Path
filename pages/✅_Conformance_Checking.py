@@ -54,13 +54,14 @@ if check_password() == True:
 
     st.title("✅ Conformance Analysis")
 
-    st.markdown("Conformance checking is a technique used to compare event logs or an actual process with the existing reference model, or target model, for that process. This technique determines whether the actual process corresponds to the target process. Conformance checking is a pProcess mining method used to check compliance.")
+    st.markdown("Conformance checking is a technique used to compare event logs or an actual process with the existing reference model, or target model, for that process. This technique determines whether the actual process corresponds to the target process. Conformance checking is a Process mining method used to check compliance.")
     
     #Upload Log File
 
     log_file_input = st.file_uploader("Upload the event log file", accept_multiple_files=False, type = [".xlsx",".csv",".xes"], help = "The event log should have the following structure: ID, Timestamp, Activity, Resource")
 
     # Upload BPMN
+
     bpmn_file_input = st.file_uploader("Upload the BPMN file", accept_multiple_files=False, type = [".bpmn"], help = "The designed process should be uploaded in a .bpmn file type. You case a free process modeler like bizagi")
 
     if st.button("Run"):
@@ -79,15 +80,14 @@ if check_password() == True:
             log["org:resource"] = log["org:resource"].astype(str)
             elog = pm.convert_to_event_log(log)
         else:
-            log = pm.read_xes(log_file_input)
-            filtered_log = pm.filter_case_size(log, 3, 30)
-            heu_net = pm.discover_heuristics_net(filtered_log, dependency_threshold=0.99, loop_two_threshold=0.99)
-            pm.save_vis_heuristics_net(heu_net, "net.png")
-            st.image("net.png")
+            elog = pm.read_xes(log_file_input)
+           
         # Read BPMN and transform to petrinet
+
         bpmn_graph = pm.read_bpmn(bpmn_file_input)
         net, im, fm = pm.convert_to_petri_net(bpmn_graph)
         tab1,tab2 = st.tabs(["Token Replay Method","Alignments Method"])
+
         # Token Replay Method
         with tab1:
             replayed_traces = pm.conformance_diagnostics_token_based_replay(elog, net, im, fm)
@@ -108,7 +108,9 @@ if check_password() == True:
             marginal="box").update_xaxes(visible=False)
             tf_g1.update_layout(showlegend=False)
             st.plotly_chart(tf_g1)
+
         #Alignment Method
+        
         with tab2:
             aligned_traces = pm.conformance_diagnostics_alignments(elog,net,im,fm)
             list_tf2 = []
