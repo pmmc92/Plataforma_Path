@@ -74,7 +74,7 @@ if check_password() == True:
 
     # File type driven operations
 
-    if st.button("Analisar"): 
+    if st.button("Run"): 
         if (os.path.splitext(log_file_input.name)[1]) == ".csv":
             log = pd.read_csv(log_file_input)
             log = log.rename(columns={log.columns[3]:"org:resource"})

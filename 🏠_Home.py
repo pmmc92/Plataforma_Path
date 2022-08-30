@@ -1,4 +1,6 @@
 
+# Import basic packages (ALL packages used on other pages are here to facilitate use of pipreqs)
+
 import streamlit as st
 import streamlit as st
 import pandas as pd
@@ -23,7 +25,14 @@ import tempfile
 from enum import Enum
 from pm4py.util import exec_utils, vis_utils
 
-st.set_page_config(layout="wide")
+# Page Config
+
+st.set_page_config(
+     page_title="Home - Show me a Path",
+     page_icon=":house:",
+     layout="wide")
+
+# Password Checker
 
 def check_password():
     """Returns `True` if the user had the correct password."""
@@ -54,4 +63,4 @@ def check_password():
         return True
 
 if check_password() == True:
-    st.header("Home Page")
+    st.title("Show me a Path")
