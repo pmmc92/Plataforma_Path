@@ -187,6 +187,7 @@ if check_password() == True:
             st.image(image)
         #Tab 5 - Social Network
         with tab5:
+
             ### THIS SECTION USES ORIGINAL PM4PY VIS SCRIPT TO ALLOW CUSTOMIZING PYVIS NETWORK
             ## START
 
@@ -242,7 +243,7 @@ if check_password() == True:
                 for x in range(len(rows)):
                     weights.append(metric_values[0][rows[x]][cols[x]])
 
-                got_net = Network(height="750px", width="100%", bgcolor="white", font_color="#f5b642", directed=directed)
+                got_net = Network(height="750px", width="120%", bgcolor="white", font_color="#f5b642", directed=directed)
                 # set the physics layout of the network
                 got_net.barnes_hut()
 
@@ -348,9 +349,7 @@ if check_password() == True:
                 
 
                 got_net.write_html(temp_file_name)
-                st.write(neighbor_map)
-                st.write(dict)
-
+                
 
                 return temp_file_name
             
@@ -361,12 +360,14 @@ if check_password() == True:
 
                 shutil.copyfile(temp_file_name, dest_file)
 
+            ## END
+
             st.subheader(":male-doctor:""Social Network")
             hw_values = pm.discover_handover_of_work_network(elog)
             gviz2 = apply(hw_values)
             path = os.getcwd()
             save(gviz2,f"{path}/sna.html")
             HtmlFile = open(f"{path}/sna.html")
-            components.html(HtmlFile.read(), width = 800, height = 800)
+            components.html(HtmlFile.read(), width = 1000, height = 800)
     
 
