@@ -104,7 +104,7 @@ if check_password() == True:
             st.write("There are **{} patients** in this event log".format(log["case:concept:name"].nunique()))
             st.dataframe(log)
             st.subheader("Missing Data")
-            md = msn.matrix(log, figsize = (20,15))
+            md = msn.matrix(log, figsize = (10,8))
             st.pyplot(md.figure)
         # Tab 2 - Time and Performance Analysis
         with tab2:
@@ -116,7 +116,7 @@ if check_password() == True:
             durations.durat = durations.durat.apply(lambda x : (((x/60)/60)/24))
             fig5=pe.histogram(durations,
             template="simple_white",
-            width = 700,
+            width = 900,
             height = 400,
             labels={"value":"Nº de dias"},
             marginal="box")
@@ -127,7 +127,7 @@ if check_password() == True:
             x, y = attributes_filter.get_kde_date_attribute(elog, attribute="time:timestamp")
             gviz = graphs_visualizer.apply_plot(x, y, variant=graphs_visualizer.Variants.DATES)
             image = Image.open(gviz)
-            st.image(image)
+            st.image(image, width = 900)
             # Gráficos 3 - Days of the week
             st.subheader("Distribution of log by day of the week")
         # Tab 3 - Activities Report
