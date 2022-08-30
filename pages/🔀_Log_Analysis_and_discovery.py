@@ -141,7 +141,7 @@ if check_password() == True:
             st.subheader("Number of activities by patient")
             n_activities = log.groupby("case:concept:name")["concept:name"].count()
             n_act_graph = pe.box(n_activities,
-            width = 700,
+            width = 900,
             height = 400,
             template = "simple_white",
             orientation="h",
@@ -156,7 +156,7 @@ if check_password() == True:
             d_act["concept:name"]=d_act["concept:name"].round(decimals=1)
             fig2=pe.bar(d_act,
             template="simple_white",
-            width=700,
+            width=900,
             height=400,
             labels={"value":"%","index":""},
             color_discrete_sequence=["Teal"])
@@ -188,8 +188,9 @@ if check_password() == True:
             fig4.update_traces(textposition="outside")
             st.plotly_chart(fig4)
 
-            
+        # Tab 4 - Heuristic Discovery
         with tab4:
+            st.subheader(":mag_right: Process Discovery")
             filtered_log = pm.filter_case_size(elog, 3, 30)
             heu_net = pm.discover_heuristics_net(filtered_log, dependency_threshold=0.99, loop_two_threshold=0.99)
             path = os.getcwd()
