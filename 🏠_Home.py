@@ -63,4 +63,6 @@ def check_password():
         return True
 
 if check_password() == True:
+    header_img = Image.open("header_image.png")
+    st.image(header_img)
     st.title("Show me a Path")
