@@ -1,4 +1,6 @@
 
+# Basic Packages 
+
 import streamlit as st
 import pandas as pd
 import matplotlib.pyplot as plt
@@ -7,6 +9,8 @@ import seaborn as sns
 import pm4py as pm
 import os
 import plotly.express as pe
+
+# Page Config
 
 st.set_page_config(
      page_title="Conformance Analysis",
@@ -46,18 +50,20 @@ def check_password():
 if check_password() == True:
 
 
-    # App structure
+    # Title and introduction
 
-    st.title("Conformance Analysis")
+    st.title("✅ Conformance Analysis")
+
+    st.markdown("Conformance checking is a technique used to compare event logs or an actual process with the existing reference model, or target model, for that process. This technique determines whether the actual process corresponds to the target process. Conformance checking is a pProcess mining method used to check compliance.")
     
     #Upload Log File
 
     log_file_input = st.file_uploader("Upload the event log file", accept_multiple_files=False, type = [".xlsx",".csv",".xes"], help = "The event log should have the following structure: ID, Timestamp, Activity, Resource")
 
     # Upload BPMN
-    bpmn_file_input = st.file_uploader("Upload the BPMN file", accept_multiple_files=False, type = [".bpmn"])
+    bpmn_file_input = st.file_uploader("Upload the BPMN file", accept_multiple_files=False, type = [".bpmn"], help = "The designed process should be uploaded in a .bpmn file type. You case a free process modeler like bizagi")
 
-    if st.button("Analisar"):
+    if st.button("Run"):
         if (os.path.splitext(log_file_input.name)[1]) == ".csv":
             log = pd.read_csv(log_file_input)
             log = log.rename(columns={log.columns[3]:"org:resource"})
