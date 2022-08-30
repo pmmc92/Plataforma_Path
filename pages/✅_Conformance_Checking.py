@@ -81,9 +81,10 @@ if check_password() == True:
             log["org:resource"] = log["org:resource"].astype(str)
             elog = pm.convert_to_event_log(log)
         else:
-            with open(log_file_input, "wb") as f:
-                f.write(buf.getbuffer())
-            st.write(f)
+            bytes_data = log_file_input.read()  # read the content of the file in binary
+    
+            with open(os.path.join("/tmp", log_file_input.name), "wb") as f:
+                f.write(bytes_data)
            
         # Read BPMN and transform to petrinet
 
