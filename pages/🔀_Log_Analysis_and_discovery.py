@@ -145,7 +145,8 @@ if check_password() == True:
             height = 400,
             template = "simple_white",
             orientation="h",
-            labels = {"value" : "N Activities", "variable" : ""})
+            labels = {"value" : "N Activities", "variable" : ""},
+            color_discrete_sequence=["Teal"])
             st.plotly_chart(n_act_graph)
             #Gráfico 2 - Most common activities
             st.subheader("Top10 activities")
@@ -380,6 +381,6 @@ if check_password() == True:
             path = os.getcwd()
             save(gviz2,f"{path}/sna.html")
             HtmlFile = open(f"{path}/sna.html")
-            components.html(HtmlFile.read(), width = 1000, height = 800)
+            components.html(HtmlFile.read(), width = 1200, height = 800)
     
 
