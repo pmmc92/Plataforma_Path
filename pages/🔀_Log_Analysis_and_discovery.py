@@ -104,8 +104,7 @@ if check_password() == True:
             st.write("There are **{} patients** in this event log".format(log["case:concept:name"].nunique()))
             st.dataframe(log)
             st.subheader("Missing Data")
-            plt.figure(figsize=(20,10))
-            md = msn.matrix(log)
+            md = msn.matrix(log, figsize = (20,15))
             st.pyplot(md.figure)
         # Tab 2 - Time and Performance Analysis
         with tab2:
