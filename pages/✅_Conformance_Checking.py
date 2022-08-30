@@ -53,7 +53,7 @@ if check_password() == True:
 
     # Title and introduction
 
-    st.title("✅ Conformance Analysis")
+    st.title("✅ Conformance Checking")
 
     st.markdown("Conformance checking is a technique used to compare event logs or an actual process with the existing reference model, or target model, for that process. This technique determines whether the actual process corresponds to the target process. Conformance checking is a Process mining method used to check compliance.")
     
@@ -64,6 +64,8 @@ if check_password() == True:
     # Upload BPMN
 
     bpmn_file_input = st.file_uploader("Upload the BPMN file", accept_multiple_files=False, type = [".bpmn"], help = "The designed process should be uploaded in a .bpmn file type. You case a free process modeler like bizagi")
+
+    # File type driven operation
 
     if st.button("Run"):
         if (os.path.splitext(log_file_input.name)[1]) == ".csv":
@@ -82,10 +84,8 @@ if check_password() == True:
             elog = pm.convert_to_event_log(log)
         else:
             bytes_data = log_file_input.read()
-    
             with open(os.path.join("/tmp", log_file_input.name), "wb") as f:
                 f.write(bytes_data)
-            path = os.getcwd()
             xes_file = f.name
             elog = pm.read_xes(xes_file)
            
